@@ -10,20 +10,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
-public class EmptyFieldsSignIn {
-
-
-    @BeforeTest
-    public void Begin() {
-        System.out.println("testing has been started");
-    }
+public class EmptyFieldsSignIn extends BaseClass{
 
     @Test
-    public void WrongPassword() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
+    public void EmptyFields() throws InterruptedException {
 
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000);
@@ -37,14 +27,6 @@ public class EmptyFieldsSignIn {
         boolean isLoginEnabled = login.isEnabled();
         Assert.assertEquals(false, isLoginEnabled);
 
-
-
-            driver.quit();
-        }
-
-        @AfterTest
-        public void After_Test () {
-            System.out.println("testing finsihed");
-        }
-
     }
+
+}

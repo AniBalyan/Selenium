@@ -10,20 +10,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
-public class GoogleSignIn {
-
-
-    @BeforeTest
-    public void Begin() {
-        System.out.println("testing has been started");
-    }
+public class GoogleSignIn extends BaseClass{
 
     @Test
     public void WrongPassword() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
 
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000);
@@ -62,11 +52,6 @@ public class GoogleSignIn {
 
         Assert.assertEquals(expectedGoogleUrl, actualGoogleUrl);
 
-    }
-
-    @AfterTest
-    public void After_Test () {
-        System.out.println("testing finsihed");
     }
 
 }

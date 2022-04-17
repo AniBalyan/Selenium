@@ -10,20 +10,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
-public class FacebookSignIn {
-
-
-    @BeforeTest
-    public void Begin() {
-        System.out.println("testing has been started");
-    }
+public class FacebookSignIn extends BaseClass {
 
     @Test
     public void WrongPassword() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
 
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000);
@@ -47,7 +37,7 @@ public class FacebookSignIn {
         Thread.sleep(5000);
         LoginAfterPassword.click();
 
-        String expectedGoogleUrl = "https://www.sololearn.com/profile/21809193";
+        String expectedFacebookUrl = "https://www.sololearn.com/profile/21809193";
 
         Thread.sleep(6000);
 
@@ -55,15 +45,10 @@ public class FacebookSignIn {
             driver.switchTo().window(SololearnWindow);
         }
 
-        String actualGoogleUrl = driver.getCurrentUrl();
+        String actualFacebookUrl = driver.getCurrentUrl();
 
-        Assert.assertEquals(expectedGoogleUrl, actualGoogleUrl);
+        Assert.assertEquals(expectedFacebookUrl, actualFacebookUrl);
 
-    }
-
-    @AfterTest
-    public void After_Test () {
-        System.out.println("testing finsihed");
     }
 
 }

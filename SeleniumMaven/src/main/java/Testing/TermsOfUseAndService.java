@@ -9,19 +9,12 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class TermsOfUseAndService {
+public class TermsOfUseAndService extends BaseClass {
 
-
-    @BeforeTest
-    public void Begin() {
-        System.out.println("testing has been started");
-    }
 
     @Test
-    public void SignUp_Page_Title_Validation() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    public void Terms () throws InterruptedException {
+
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000L);
         WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
@@ -35,17 +28,33 @@ public class TermsOfUseAndService {
         Thread.sleep(4000L);
         Assert.assertEquals(expectedUrlSignUp, actualUrlSignUp);
 
-        WebElement GooglePrivacyPolicy = driver.findElement(By.cssSelector
-                ("[class = 'recaptcha-info'] [href ='<a href=\"https://policies.google.com/privacy\">Privacy Policy</a>']"));
+        WebElement GooglePrivacyPolicy = driver.findElement(By.linkText("Privacy Policy"));
         GooglePrivacyPolicy.click();
 
+        String expectedPrivacyPolicyURL = "https://policies.google.com/privacy";
+        String actualPrivacyPolicyURL = driver.getCurrentUrl();
+        Assert.assertEquals(expectedPrivacyPolicyURL, actualPrivacyPolicyURL);
+        Thread.sleep(4000);
+        driver.navigate().back();
+        Thread.sleep(4000);
+
+        WebElement TermsOfService = driver.findElement(By.linkText("Terms of Service"));
+        TermsOfService.click();
+
+        String expectedTermsOfServiceURL = "https://policies.google.com/terms";
+        String actualTermsOfServiceURL = driver.getCurrentUrl();
+        Assert.assertEquals(expectedTermsOfServiceURL, actualTermsOfServiceURL);
+        Thread.sleep(4000);
+        driver.navigate().back();
+        Thread.sleep(4000);
+
+        WebElement TermsOfUse = driver.findElement(By.linkText("Terms of Use"));
+        TermsOfUse.click();
+
+        String expectedTermsOfUseURL = "https://www.sololearn.com/terms-of-use/";
+        String actualTermsOfUseURL = driver.getCurrentUrl();
+        Assert.assertEquals(expectedTermsOfUseURL, actualTermsOfUseURL);
 
 
-        driver.quit();
-    }
-
-    @AfterTest
-    public void After_Test() {
-        System.out.println("testing finsihed");
     }
 }

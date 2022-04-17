@@ -10,20 +10,11 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
-public class ForgotPassword {
+public class ForgotPassword extends BaseClass{
 
-
-    @BeforeTest
-    public void Begin() {
-        System.out.println("testing has been started");
-    }
 
     @Test
     public void WrongPassword() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
 
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000);
@@ -46,6 +37,7 @@ public class ForgotPassword {
         String ActualMessageEmailSent = driver.findElement(By.cssSelector("div.block p")).getText();
         String ExpectedMessageEmailSent = "We just sent you an email containing further instructions.";
         Assert.assertEquals(ActualMessageEmailSent, ExpectedMessageEmailSent );
+
 
 
     }

@@ -9,21 +9,14 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.Random;
 
-public class WrongPassword {
 
+public class WrongPassword extends BaseClass{
 
-    @BeforeTest
-    public void Begin(){
-        System.out.println( "testing has been started");
-    }
 
     @Test
-    public void WrongPassword() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
+       public void WrongPassword() throws InterruptedException {
 
         driver.get("https://www.sololearn.com/users/login");
         Thread.sleep(4000);
@@ -34,8 +27,10 @@ public class WrongPassword {
         WebElement password = driver.findElement(By.id("password"));
         WebElement login=driver.findElement(By.className("sl-login-login-form__action"));
 
+        Random randomUsername = new Random();
+        int randomNumbers = randomUsername.nextInt();
 
-        username.sendKeys("ani@sololearn.com");
+        username.sendKeys("test" + randomNumbers + "@sololearn.com");
         password.sendKeys("1234567");
         login.click();
 
@@ -45,12 +40,7 @@ public class WrongPassword {
         Thread.sleep(4000);
 
         Assert.assertEquals(ExpectedErrorMessage, ActualErrorMessage);
-        driver.quit();
-    }
 
-    @AfterTest
-    public void After_Test(){
-        System.out.println( "testing finsihed");
     }
 
 }
