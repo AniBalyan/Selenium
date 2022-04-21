@@ -37,7 +37,7 @@ public class SignIn extends BaseClass {
         WebElement password = driver.findElement(By.id("password"));
         WebElement login=driver.findElement(By.className("sl-login-login-form__action"));
 
-        username.sendKeys("ani@sololearn.com");
+        username.sendKeys("forbits1@sololearn.com");
         password.sendKeys("123456");
         login.click();
 
