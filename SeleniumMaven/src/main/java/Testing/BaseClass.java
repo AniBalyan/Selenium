@@ -12,7 +12,7 @@ public class BaseClass {
     @BeforeTest
     public void Begin() {
         System.out.println("testing has been started");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver100\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
          driver = new ChromeDriver();
         driver.manage().window().maximize();
 
@@ -22,7 +22,7 @@ public class BaseClass {
     @AfterTest
     public void After_Test() {
         System.out.println("testing finsihed");
-   //driver.quit();
+   driver.quit();
 
     }
 }

@@ -34,27 +34,30 @@ public class GoogleSignIn extends BaseClass{
         for(String GoogleWindow : driver.getWindowHandles()){
             driver.switchTo().window(GoogleWindow);
         }
-        Thread.sleep(3000);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
         WebElement googleAccount = driver.findElement(By.cssSelector("input[type='email']"));
         googleAccount.sendKeys("soliktest@gmail.com");
         WebElement Next = driver.findElement(By.cssSelector("[id='identifierNext'] [class='VfPpkd-vQzf8d']"));
         Next.click();
-        Thread.sleep(3000);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
         WebElement googleSignInPassword = driver.findElement(By.cssSelector("input[type='password']"));
-        Thread.sleep(3000);
+
         googleSignInPassword.sendKeys("testsolik");
-        Thread.sleep(3000);
+
         WebElement NextAfterPassword = driver.findElement(By.cssSelector("[id='passwordNext'] [class='VfPpkd-vQzf8d']"));
-        Thread.sleep(3000);
+
         NextAfterPassword.click();
 
         String expectedGoogleUrl = "https://www.sololearn.com/profile/25649014";
 
-        Thread.sleep(5000);
+        Thread.sleep(4000);
 
         for(String SololearnWindow : driver.getWindowHandles()){
             driver.switchTo().window(SololearnWindow);
         }
+        Thread.sleep(4000);
 
         String actualGoogleUrl = driver.getCurrentUrl();
 

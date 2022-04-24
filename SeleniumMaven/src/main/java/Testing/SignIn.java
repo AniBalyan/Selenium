@@ -42,7 +42,7 @@ public class SignIn extends BaseClass {
         login.click();
 
 
-        String expectedUrl="https://www.sololearn.com/profile/20265645";
+        String expectedUrl="https://www.sololearn.com/profile/21413224";
         Thread.sleep(4000);
         String actualUrl= driver.getCurrentUrl();
         Thread.sleep(4000);

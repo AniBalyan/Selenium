@@ -32,8 +32,6 @@ public class FacebookSignIn extends BaseClass {
                 driver.findElement(By.cssSelector("button[class='sl-login-social-login__item--facebook sl-login-social-login__item__social-button']"));
         FacebookLogin.click();
 
-      //  Thread.sleep(4000);
-
         for(String GoogleWindow : driver.getWindowHandles()){
             driver.switchTo().window(GoogleWindow);
         }
@@ -43,25 +41,25 @@ public class FacebookSignIn extends BaseClass {
 
 
         FacebookAccount.sendKeys("marialucia00@mail.ru");
-        //click pass field
-        //wait
+        FacebookSignInPassword.click();
         FacebookSignInPassword.sendKeys("maria555");
 
         WebElement LoginAfterPassword = driver.findElement((By.cssSelector("[id='loginbutton'] [type='submit']")));
         LoginAfterPassword.click();
 
+        Thread.sleep(4000);
 
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.numberOfWindowsToBe(1));
         for(String SololearnWindow : driver.getWindowHandles()){
             driver.switchTo().window(SololearnWindow);
         }
 
-        Thread.sleep(4000);
-
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.urlToBe("https://www.sololearn.com/profile/21809193"));
         String expectedFacebookUrl = "https://www.sololearn.com/profile/21809193";
         String actualFacebookUrl = driver.getCurrentUrl();
 
-        Thread.sleep(3000);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.urlToBe("https://www.sololearn.com/profile/21809193"));
         Assert.assertEquals(expectedFacebookUrl, actualFacebookUrl);
 
     }

@@ -40,9 +40,9 @@ public class WrongPassword extends BaseClass{
         login.click();
 
         String ExpectedErrorMessage = "Invalid username or password.";
-       Thread.sleep(4000);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
+                until(ExpectedConditions.visibilityOfElementLocated((By.cssSelector("[class='sl-login-error']"))));
         String ActualErrorMessage = driver.findElement(By.cssSelector("[class='sl-login-error']")).getText();
-        Thread.sleep(4000);
 
         Assert.assertEquals(ExpectedErrorMessage, ActualErrorMessage);
 
