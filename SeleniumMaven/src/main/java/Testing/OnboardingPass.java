@@ -172,39 +172,26 @@ public class OnboardingPass extends BaseClass {
         String actualQuestionAvailabilityTitle = driver.findElement(By.className("sl-obrd-surv__cont__title")).getText();
         Assert.assertEquals(expectedQuestionAvailabilityTitle, actualQuestionAvailabilityTitle);
 
-Thread.sleep(2000);
+
         List <WebElement> describeYourselfQuestions=
                 driver.findElements(By.xpath("//button/p"));
 
         int numberOfDescribeYourselfQuestions = describeYourselfQuestions.size();
         Assert.assertEquals(numberOfDescribeYourselfQuestions, 5);
 
-        String text1 = "Technical Professional (I work with code as a dev or data scientist)";
-        String text2 = "Student (With plenty of time to learn)";
-        String text3 = "Non-technical Newbie (I'm looking to reskill myself)";
-        String text4 = "Hobbyist (This is just a hobby for me, not my whole life)";
-        String text5 = "Business Person (I have technical aspects to my job)";
 
-       String [] describeYourselfQuestionNames = {"Technical Professional (I work with code as a dev or data scientist)",
-        "Student (With plenty of time to learn)", "Non-technical Newbie (I'm looking to reskill myself)",
-                "Hobbyist (This is just a hobby for me, not my whole life)", "Business Person (I have technical aspects to my job)"};
+        String [] describeYourselfQuestionNames = {"Technical Professional (I work with code as a dev or data scientist)",
+        "Student (With plenty of time to learn)", "Hobbyist (This is just a hobby for me, not my whole life)",
+               "Business Person (I have technical aspects to my job)"};
 
-
-       Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text1+"']") ).size() == 1,
-                    "Describe yourself question text is false 1");
-       Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text2+"']") ).size() == 1,
-                "Describe yourself question text is false 2");
-        Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text3+"']") ).size() == 1,
-                "Describe yourself question text is false 3");
-        Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text4+"']") ).size() == 1,
-                "Describe yourself question text is false 4");
-        Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text5+"']") ).size() == 1,
-                "Describe yourself question text is false 5");
-        Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+text3+"']") ).size() == 1,
-                "Describe yourself question text is false 3");
+       for (String describeYourselfQuestionName : describeYourselfQuestionNames) {
+           Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+describeYourselfQuestionName+"']") ).size() == 1);
+       }
+        Assert.assertTrue(driver.
+                findElements( By.xpath("//button/p[.=\"Non-technical Newbie (I'm looking to reskill myself)\"]") ).size() == 1);
 
 
-        WebElement Student = driver.findElement(By.className("sl-onbrd-select-button"));
+       WebElement Student = driver.findElement(By.className("sl-onbrd-select-button"));
         Student.click();
         String ExpectedUrlQuestionPace = "https://www.sololearn.com/onboarding/questionPace";
         String ActualUrlQuestionPace = driver.getCurrentUrl();
