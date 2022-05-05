@@ -17,35 +17,31 @@ import java.util.concurrent.TimeUnit;
 
 public class FacebookSignIn extends BaseClass {
 
+    By facebookLogin = By.cssSelector("button[class='sl-login-social-login__item--facebook sl-login-social-login__item__social-button']");
+    By FacebookAccount = By.id("email");
+    By FacebookSignInPassword = By.id("pass");
+    By LoginAfterPassword= By.cssSelector("[id='loginbutton'] [type='submit']");
+
     @Test
     public void FacebookSignIn() throws InterruptedException {
 
         driver.get("https://www.sololearn.com/users/login");
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
-        WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
-        Ok.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
+        driver.findElement(cookiesOkButton).click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(Ok));
+        WebElement cookieOkButtonWebElement = driver.findElement(cookiesOkButton);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(cookieOkButtonWebElement));
 
-        WebElement FacebookLogin =
-                driver.findElement(By.cssSelector("button[class='sl-login-social-login__item--facebook sl-login-social-login__item__social-button']"));
-        FacebookLogin.click();
+        driver.findElement(facebookLogin).click();
 
         for(String GoogleWindow : driver.getWindowHandles()){
             driver.switchTo().window(GoogleWindow);
         }
 
-        WebElement FacebookAccount = driver.findElement(By.id("email"));
-        WebElement FacebookSignInPassword = driver.findElement(By.id("pass"));
-
-
-        FacebookAccount.sendKeys("marialucia00@mail.ru");
-        FacebookSignInPassword.click();
-        FacebookSignInPassword.sendKeys("maria555");
-
-        WebElement LoginAfterPassword = driver.findElement((By.cssSelector("[id='loginbutton'] [type='submit']")));
-        LoginAfterPassword.click();
+        driver.findElement(FacebookAccount).sendKeys("marialucia00@mail.ru");
+        driver.findElement(FacebookSignInPassword).click();
+        driver.findElement(FacebookSignInPassword).sendKeys("maria555");
+        driver.findElement(LoginAfterPassword).click();
 
         Thread.sleep(4000);
 

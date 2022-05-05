@@ -16,39 +16,35 @@ import java.time.Duration;
 
 public class GoogleSignIn extends BaseClass{
 
+    By googleLoginButton = By.cssSelector("button[class='sl-login-social-login__item--google sl-login-social-login__item__social-button']");
+    By googleAccount =By.cssSelector("input[type='email']");
+    By nextButton = By.cssSelector("[id='identifierNext'] [class='VfPpkd-vQzf8d']");
+    By googleSignInPassword = By.cssSelector("input[type='password']");
+    By NextAfterPassword = By.cssSelector("[id='passwordNext'] [class='VfPpkd-vQzf8d']");
+
     @Test
     public void WrongPassword() throws InterruptedException {
 
         driver.get("https://www.sololearn.com/users/login");
 
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
+        driver.findElement(cookiesOkButton).click();
 
-        WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
-        Ok.click();
-
-       WebElement GoogleLogin =
-               driver.findElement(By.cssSelector("button[class='sl-login-social-login__item--google sl-login-social-login__item__social-button']"));
-       GoogleLogin.click();
+        driver.findElement(googleLoginButton).click();
 
         for(String GoogleWindow : driver.getWindowHandles()){
             driver.switchTo().window(GoogleWindow);
         }
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
-        WebElement googleAccount = driver.findElement(By.cssSelector("input[type='email']"));
-        googleAccount.sendKeys("soliktest@gmail.com");
-        WebElement Next = driver.findElement(By.cssSelector("[id='identifierNext'] [class='VfPpkd-vQzf8d']"));
-        Next.click();
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
-        WebElement googleSignInPassword = driver.findElement(By.cssSelector("input[type='password']"));
 
-        googleSignInPassword.sendKeys("testsolik");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(googleAccount));
+        driver.findElement(googleAccount).sendKeys("soliktest@gmail.com");
 
-        WebElement NextAfterPassword = driver.findElement(By.cssSelector("[id='passwordNext'] [class='VfPpkd-vQzf8d']"));
+        driver.findElement(nextButton).click();
 
-        NextAfterPassword.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(googleSignInPassword));
+        driver.findElement(googleSignInPassword).sendKeys("testsolik");
+
+        driver.findElement(NextAfterPassword).click();
 
         String expectedGoogleUrl = "https://www.sololearn.com/profile/25649014";
 

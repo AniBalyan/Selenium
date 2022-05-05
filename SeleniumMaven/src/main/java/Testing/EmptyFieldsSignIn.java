@@ -19,19 +19,12 @@ public class EmptyFieldsSignIn extends BaseClass{
     @Test
     public void EmptyFields() throws InterruptedException {
 
-        driver.get("https://www.sololearn.com/users/login");
+        driver.get(devLoginURL);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
+        driver.findElement(cookiesOkButton).click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
-
-        WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
-        Ok.click();
-
-        WebElement username = driver.findElement(By.id("email"));
-        WebElement password = driver.findElement(By.id("password"));
-        WebElement login = driver.findElement(By.className("sl-login-login-form__action"));
-
-        boolean isLoginEnabled = login.isEnabled();
+        WebElement signIn2 = driver.findElement(signIn);
+        boolean isLoginEnabled = signIn2.isEnabled();
         Assert.assertEquals(false, isLoginEnabled);
 
     }

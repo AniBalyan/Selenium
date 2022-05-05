@@ -15,46 +15,45 @@ import java.time.Duration;
 
 public class TermsOfUseAndService extends BaseClass {
 
+    By GooglePrivacyPolicy = By.linkText("Privacy Policy");
+    By TermsOfService = By.linkText("Terms of Service");
+    By TermsOfUse = By.linkText("Terms of Use");
 
     @Test
     public void Terms () throws InterruptedException {
 
         driver.get("https://www.sololearn.com/users/login");
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
 
-        WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
-        Ok.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
+        driver.findElement(cookiesOkButton).click();
 
-        WebElement CreateAnAccount = driver.findElement(By.className("sl-login-switch-link__link"));
-        CreateAnAccount.click();
+        driver.findElement(CreateAnAccount).click();
+
         String actualUrlSignUp = "https://www.sololearn.com/users/signup";
         String expectedUrlSignUp = driver.getCurrentUrl();
         Assert.assertEquals(expectedUrlSignUp, actualUrlSignUp);
 
-        WebElement GooglePrivacyPolicy = driver.findElement(By.linkText("Privacy Policy"));
-        GooglePrivacyPolicy.click();
+        driver.findElement(GooglePrivacyPolicy).click();
 
         String expectedPrivacyPolicyURL = "https://policies.google.com/privacy";
         String actualPrivacyPolicyURL = driver.getCurrentUrl();
         Assert.assertEquals(expectedPrivacyPolicyURL, actualPrivacyPolicyURL);
         driver.navigate().back();
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/users/signup"));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Terms of Service")));
 
-        WebElement TermsOfService = driver.findElement(By.linkText("Terms of Service"));
-        TermsOfService.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/users/signup"));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(TermsOfService));
+
+        driver.findElement(TermsOfService).click();
 
         String expectedTermsOfServiceURL = "https://policies.google.com/terms";
         String actualTermsOfServiceURL = driver.getCurrentUrl();
         Assert.assertEquals(expectedTermsOfServiceURL, actualTermsOfServiceURL);
+
         driver.navigate().back();
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/users/signup"));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Terms of Use")));
-        WebElement TermsOfUse = driver.findElement(By.linkText("Terms of Use"));
-        TermsOfUse.click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(TermsOfUse));
+        driver.findElement(TermsOfUse).click();
+
 
         String expectedTermsOfUseURL = "https://www.sololearn.com/terms-of-use/";
         String actualTermsOfUseURL = driver.getCurrentUrl();

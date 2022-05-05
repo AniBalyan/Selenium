@@ -19,36 +19,25 @@ public class OnboardingPass extends BaseClass {
 
         driver.get("https://www.sololearn.com/home");
 
-
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
-        WebElement Ok = driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonAccept"));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(By.id("CybotCookiebotDialogBodyLevelButtonAccept")));
-        Ok.click();
-        new WebDriverWait(driver, Duration.ofSeconds(10)).
-                until(ExpectedConditions.visibilityOfElementLocated((By.id("CybotCookiebotDialogBodyLevelButtonAccept"))));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(cookiesOkButton));
+        driver.findElement(cookiesOkButton).click();
 
 
-        WebElement Register = driver.findElement(By.className("sl-action-btn--primary"));
-        Register.click();
+        driver.findElement(registerButton).click();
         String actualUrl = "https://www.sololearn.com/onboarding/auth/signup";
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/auth/signup"));
         String expectedUrl = driver.getCurrentUrl();
         Assert.assertEquals(expectedUrl, actualUrl);
 
-        WebElement Email = driver.findElement(By.id("email"));
-        WebElement Name = driver.findElement(By.id("name"));
-        WebElement Password = driver.findElement(By.id("password"));
-        WebElement Signup = driver.findElement(By.className("sl-login-signup-form__action"));
-
         Random randomUsername = new Random();
         int randomNumbers = randomUsername.nextInt();
 
-        Email.sendKeys("test" + randomNumbers + "@sololearn.com");
+        driver.findElement(userEmail).sendKeys("test" + randomNumbers + "@sololearn.com");
+        driver.findElement(usernameName).sendKeys("test");
+        driver.findElement(password).sendKeys("123456");
+        driver.findElement(SignupButton).click();
 
-        Name.sendKeys("test");
-        Password.sendKeys("123456");
-        Signup.click();
         String expectedUrlOnboardingSurvey = "https://www.sololearn.com/onboarding/onboardingSurveyCourses";
         new WebDriverWait(driver, Duration.ofSeconds(15)).
                 until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/onboardingSurveyCourses"));
@@ -246,21 +235,39 @@ public class OnboardingPass extends BaseClass {
         WebElement continueLoadingScreen = driver.findElement(By.className("sl-onbrd__action-btn"));
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable((By.className("sl-onbrd__action-btn"))));
 
-       String expectedLoadingScreenTitle= "Hang tight! We’re developing your learning plan";
        String actualLoadingScreenTitle = driver.findElement(By.className("sl-onbrd-psycho-loading__title")).getText();
-       Assert.assertEquals(actualLoadingScreenTitle, expectedLoadingScreenTitle);
+       String expectedLoadingScreenTitle1= "Hang tight! We’re developing your learning plan";
+       String expectedLoadingScreenTitle2= "Hang tight!";
 
-       new WebDriverWait(driver, Duration.ofSeconds(10)).
+        Assert.assertTrue(actualLoadingScreenTitle.equals(expectedLoadingScreenTitle1)
+                || actualLoadingScreenTitle.equals(expectedLoadingScreenTitle2),"Actual Loading Screen Title is wrong");
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).
                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='sl-progress-bar__completed-text']")));
 
-       String expectedLearningPlanReadyText = "Your learning plan is ready, gvhbjk!";
-       String actualLearningPlanReadyText = driver.findElement((By.cssSelector("[class='sl-progress-bar__completed-text']"))).getText();
-       Assert.assertEquals(actualLearningPlanReadyText, expectedLearningPlanReadyText );
+        String actualLearningPlanReadyText = driver.findElement((By.cssSelector("[class='sl-progress-bar__completed-text']"))).getText();
+        String expectedLearningPlanReadyText1 = "Your learning plan is ready, test!";
+        String expectedLearningPlanReadyText2 = "That's all, test";
+        Assert.assertTrue((actualLearningPlanReadyText.equals(expectedLearningPlanReadyText1) ||
+                actualLearningPlanReadyText.equals(expectedLearningPlanReadyText2)));
+
+        String actualProgressBarCompletedText = driver.findElement(By.className("sl-progress-bar__completed-text")).getText();
+        String expectedProgressBarCompletedText1 = "Your learning plan is ready, test!";
+        String expectedProgressBarCompletedText2 = "That's all, test";
+        String actualLoadingDescription = driver.findElement(By.className("sl-onbrd-psycho-loading__description")).getText();
+        String expectedLoadingDescription = "Hold on for a few seconds while we're developing your custom learning plan.";
+        Assert.assertTrue(actualProgressBarCompletedText.equals(expectedProgressBarCompletedText1) ||
+                (actualProgressBarCompletedText.equals(expectedProgressBarCompletedText2)
+                        && actualLoadingDescription.equals(expectedLoadingDescription)),
+                "Progress Bar Completed text or Loading description is wrong");
+
 
         continueLoadingScreen.click(); //"Continue" or "Thanks" button
         String ExpectedUrlLearningPlan = "https://www.sololearn.com/onboarding/learningPlan";
         String ActualUrlLearningPlan = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlLearningPlan, ActualUrlLearningPlan);
+
+
 
         WebElement continueLearningPlan = driver.findElement(By.className("sl-onbrd-learn-plan__action-btn"));
         continueLearningPlan.click();
