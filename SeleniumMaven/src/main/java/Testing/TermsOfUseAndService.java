@@ -20,9 +20,12 @@ public class TermsOfUseAndService extends BaseClass {
     By TermsOfUse = By.linkText("Terms of Use");
 
     @Test
-    public void Terms () throws InterruptedException {
+    public void Terms ()  {
 
-        driver.get("https://www.sololearn.com/users/login");
+        By cookiesOkButton = By.id("CybotCookiebotDialogBodyLevelButtonAccept");
+        By CreateAnAccount = By.className("sl-login-switch-link__link");
+        driver.get(prodLoginUrl);
+
 
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
         driver.findElement(cookiesOkButton).click();

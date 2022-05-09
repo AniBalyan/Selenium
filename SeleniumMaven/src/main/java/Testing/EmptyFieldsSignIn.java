@@ -16,16 +16,21 @@ import java.time.Duration;
 
 public class EmptyFieldsSignIn extends BaseClass{
 
+    By signInButton = By.className("sl-login-login-form__action");
+
     @Test
-    public void EmptyFields() throws InterruptedException {
+    public void EmptyFieldsTest()  {
 
-        driver.get(devLoginURL);
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
-        driver.findElement(cookiesOkButton).click();
+        driver.get(prodLoginUrl);
 
-        WebElement signIn2 = driver.findElement(signIn);
-        boolean isLoginEnabled = signIn2.isEnabled();
-        Assert.assertEquals(false, isLoginEnabled);
+        signSignUpElements emptyFieldsTest =new signSignUpElements();
+        emptyFieldsTest.cookiesOkButtonClick();
+        emptyFieldsTest.enterUserEmail("");
+        emptyFieldsTest.enterPassword("");
+
+        WebElement webElementSignInButton = driver.findElement(signInButton);
+        boolean isSignInButtonEnabled = webElementSignInButton.isEnabled();
+        Assert.assertEquals(false, isSignInButtonEnabled);
 
     }
 
