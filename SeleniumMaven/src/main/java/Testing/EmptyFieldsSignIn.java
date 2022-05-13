@@ -13,25 +13,23 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
+import static Testing.SignInElements.signInButton;
 
 public class EmptyFieldsSignIn extends BaseClass{
-
-    By signInButton = By.className("sl-login-login-form__action");
 
     @Test
     public void EmptyFieldsTest()  {
 
         driver.get(prodLoginUrl);
 
-        signSignUpElements emptyFieldsTest =new signSignUpElements();
+        SignInElements emptyFieldsTest =new SignInElements();
         emptyFieldsTest.cookiesOkButtonClick();
         emptyFieldsTest.enterUserEmail("");
         emptyFieldsTest.enterPassword("");
 
-        WebElement webElementSignInButton = driver.findElement(signInButton);
+        WebElement webElementSignInButton = driver.findElement(SignInElements.signInButton);
         boolean isSignInButtonEnabled = webElementSignInButton.isEnabled();
         Assert.assertEquals(false, isSignInButtonEnabled);
 
     }
-
 }

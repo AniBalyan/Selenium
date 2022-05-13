@@ -13,13 +13,14 @@ public class SignInWithEmail extends BaseClass{
     public void validSignInTest() {
 
         driver.get(prodLoginUrl);
-        signSignUpElements validSignInTest = new signSignUpElements();
+        SignInElements validSignInTest = new SignInElements();
         validSignInTest.cookiesOkButtonClick();
         validSignInTest.enterUserEmail("forbits1@sololearn.com");
         validSignInTest.enterPassword("123456");
-        validSignInTest.clickSignIn();
 
-        String expectedProfileUrl = "https://web-dev.sololearn.com/profile/21413224";
+        SignInElements.clickSignIn();
+
+        String expectedProfileUrl = "https://www.sololearn.com/profile/21413224";
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(expectedProfileUrl));
         String actualProfileUrl = driver.getCurrentUrl();
         Assert.assertEquals(expectedProfileUrl, actualProfileUrl);

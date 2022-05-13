@@ -12,8 +12,6 @@ import java.time.Duration;
 
 public class SignInWithFacebook extends BaseClass {
 
-
-
     @Test
     public void FacebookSignIn() throws InterruptedException {
 
@@ -21,9 +19,10 @@ public class SignInWithFacebook extends BaseClass {
 
         driver.get(prodLoginUrl);
 
-        signSignUpElements signInWithFaceBook = new signSignUpElements();
+        FacebookSignInElements signInWithFaceBook = new FacebookSignInElements();
+        SignInElements signInWithFaceBookforCookies = new SignInElements();
 
-        signInWithFaceBook.cookiesOkButtonClick();
+        signInWithFaceBookforCookies.cookiesOkButtonClick();
         signInWithFaceBook.FacebookLoginClick();
         String facebookProfileURL = "https://www.sololearn.com/profile/21809193";
 

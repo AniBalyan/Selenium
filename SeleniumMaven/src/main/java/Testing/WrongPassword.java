@@ -16,7 +16,7 @@ public class WrongPassword extends BaseClass{
        public void WrongPasswordTest() {
 
        driver.get(prodLoginUrl);
-        signSignUpElements wrongPassword = new signSignUpElements();
+        SignInElements wrongPassword = new SignInElements();
         wrongPassword.cookiesOkButtonClick();
 
         Random randomUsername = new Random();

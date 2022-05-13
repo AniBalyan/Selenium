@@ -13,8 +13,9 @@ public class ForgotPassword extends BaseClass{
 
         driver.get(prodLoginUrl);
 
-        signSignUpElements forgotPassword = new signSignUpElements();
-        forgotPassword.cookiesOkButtonClick();
+        ForgotPasswordElements forgotPassword = new ForgotPasswordElements();
+        SignInElements cookieButtoninFacebookSignIn = new SignInElements();
+        cookieButtoninFacebookSignIn.cookiesOkButtonClick();
         forgotPassword.forgotPasswordButtonClick();
 
         String ExpectedForgotPasswordURL = "https://www.sololearn.com/User/ForgotPassword/";

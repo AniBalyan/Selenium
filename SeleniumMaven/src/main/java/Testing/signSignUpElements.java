@@ -12,9 +12,9 @@ import java.time.Duration;
 public class signSignUpElements extends BaseClass {
 
 
-    By userEmail1 = By.id("email");
-    By password1 = By.id("password");
-    By signInButton = By.className("sl-login-login-form__action");
+  /*  By userEmail = By.id("email");
+    By password = By.id("password");
+    static By signInButton = By.className("sl-login-login-form__action");
     By cookiesOkButton = By.id("CybotCookiebotDialogBodyLevelButtonAccept");
 
     By facebookLoginButton = By.cssSelector("button[class='sl-login-social-login__item--facebook sl-login-social-login__item__social-button']");
@@ -34,10 +34,10 @@ public class signSignUpElements extends BaseClass {
 
     By registerButton = By.className("sl-action-btn--primary");
     By usernameName = By.id("name");
-    By SignupButton = By.className("sl-login-signup-form__action");
+    By SignupButton = By.className("sl-login-signup-form__action"); */
 
 
-    public void cookiesOkButtonClick() {
+   /* public void cookiesOkButtonClick() {
 
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(cookiesOkButton));
@@ -47,20 +47,21 @@ public class signSignUpElements extends BaseClass {
 
         public void enterUserEmail(String yourEmail)
         {
-            driver.findElement(userEmail1).sendKeys(yourEmail);
+            driver.findElement(userEmail).sendKeys(yourEmail);
         }
 
         public void enterPassword(String yourPassword) {
-            driver.findElement(password1).sendKeys(yourPassword);
+            driver.findElement(password).sendKeys(yourPassword);
         }
 
-        public void clickSignIn() {
+        public static void clickSignIn() {
             driver.findElement(signInButton).click();
         }
 
-        public void FacebookLoginClick() {
-        driver.findElement(facebookLoginButton).click();
+        public void FacebookLoginClick () {
+            driver.findElement(facebookLoginButton).click();
         }
+
 
         public void enterFacebookAccount(String yourFaceBookAccount){
         driver.findElement(FacebookAccount).sendKeys(yourFaceBookAccount);
@@ -123,7 +124,7 @@ public class signSignUpElements extends BaseClass {
 
         public void signUpButtonClick () {
          driver.findElement(SignupButton).click();
-        }
+        } */
 
 
 

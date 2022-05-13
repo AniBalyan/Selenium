@@ -22,8 +22,9 @@ public class GoogleSignIn extends BaseClass{
 
         driver.get(prodLoginUrl);
 
-        signSignUpElements googleSign = new signSignUpElements();
-        googleSign.cookiesOkButtonClick();
+        GoogleSignInElements googleSign = new GoogleSignInElements();
+        SignInElements cookiesButton = new SignInElements();
+        cookiesButton.cookiesOkButtonClick();
         googleSign.googleSignInButtonClick();
 
 
@@ -36,7 +37,6 @@ public class GoogleSignIn extends BaseClass{
         googleSign.enterGooglePassword("testsolik");
         googleSign.NextAfterGooglePasswordClick();
 
-
         String expectedGoogleUrl = "https://www.sololearn.com/profile/25649014";
 
         Thread.sleep(4000);
@@ -47,7 +47,6 @@ public class GoogleSignIn extends BaseClass{
         Thread.sleep(4000);
 
         String actualGoogleUrl = driver.getCurrentUrl();
-
         Assert.assertEquals(expectedGoogleUrl, actualGoogleUrl);
 
     }
