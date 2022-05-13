@@ -12,6 +12,7 @@ public class BaseClass {
  public  static WebDriver driver;
 
     String devLoginURL = "https://web-dev.sololearn.com/users/login";
+    String prePreprodLoginURL= "https://preprod.sololearn.com/users/login";
     String prodLoginUrl = "https://sololearn.com/users/login";
     String prodHomepageURL = "https://www.sololearn.com/home";
 

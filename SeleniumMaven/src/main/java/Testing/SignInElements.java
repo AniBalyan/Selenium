@@ -16,6 +16,8 @@ public class SignInElements extends BaseClass{
     By password = By.id("password");
     static By signInButton = By.className("sl-login-login-form__action");
     By cookiesOkButton = By.id("CybotCookiebotDialogBodyLevelButtonAccept");
+    By loginButtonHomePage = By.cssSelector("[sl-test-data=\"actionButtonsecondary\"]");
+
 
     public void cookiesOkButtonClick() {
 
@@ -25,6 +27,10 @@ public class SignInElements extends BaseClass{
 
     }
 
+    public void clickUserEmailField() {
+        new WebDriverWait(driver,Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(userEmail));
+        driver.findElement(userEmail).click();
+    }
     public void enterUserEmail(String yourEmail)
     {
         driver.findElement(userEmail).sendKeys(yourEmail);
@@ -38,4 +44,9 @@ public class SignInElements extends BaseClass{
         driver.findElement(signInButton).click();
     }
 
+    public void LoginButtonHomePageClick(){
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(loginButtonHomePage));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(loginButtonHomePage));
+        driver.findElement(loginButtonHomePage).click();
+    }
 }

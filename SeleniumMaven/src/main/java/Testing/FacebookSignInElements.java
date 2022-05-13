@@ -17,11 +17,13 @@ public class FacebookSignInElements extends BaseClass{
 
 
     public void FacebookLoginClick () {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(facebookLoginButton));
         driver.findElement(facebookLoginButton).click();
     }
 
 
     public void enterFacebookAccount(String yourFaceBookAccount){
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(FacebookAccount));
         driver.findElement(FacebookAccount).sendKeys(yourFaceBookAccount);
     }
 
