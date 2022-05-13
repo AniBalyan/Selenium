@@ -29,7 +29,7 @@ public class SignInTest extends BaseClass {
     }
 
     @Test(priority = 2)
-    public void validSignInTest() throws InterruptedException {
+    public void validSignInWithEmail(){
 
         //driver.get(prodLoginUrl);
         SignInElements validSignInTest = new SignInElements();
