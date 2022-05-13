@@ -158,5 +158,23 @@ public class SignInTest extends BaseClass {
 
         String actualGoogleProfileUrl = driver.getCurrentUrl();
         Assert.assertEquals(expectedGoogleProfileUrl, actualGoogleProfileUrl);
+
+        SignOutElements signOutFromGoogleAccount = new SignOutElements();
+        signOutFromGoogleAccount.userAvatarIconClick();
+        signOutFromGoogleAccount.logoutButtonClick();
+    }
+
+    @Test (priority = 7)
+
+    public void notActivatedUserSignIn() {
+
+        SignInElements notActivatedUser = new SignInElements();
+        notActivatedUser.clickUserEmailField();
+        notActivatedUser.enterUserEmail("forbits@sololearn.com");
+        notActivatedUser.enterPassword("123456");
+
+        String expectedMessageNonActivatedUser = "Your account is not activated. Please check your email for activation instructions.";
+        String actualMessageNonActivatedUser = driver.findElement(By.className("sl-login-error")).getText();
+        Assert.assertEquals(actualMessageNonActivatedUser,expectedMessageNonActivatedUser );
     }
     }
