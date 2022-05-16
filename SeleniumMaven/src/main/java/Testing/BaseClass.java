@@ -32,7 +32,7 @@ public class BaseClass {
     @AfterTest
     public void After_Test() {
         System.out.println("testing finsihed");
-       // driver.quit();
+        driver.quit();
 
     }
 }

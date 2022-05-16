@@ -31,7 +31,6 @@ public class SignInTest extends BaseClass {
     @Test(priority = 2)
     public void validSignInWithEmail(){
 
-        //driver.get(prodLoginUrl);
         SignInElements validSignInTest = new SignInElements();
         validSignInTest.clickUserEmailField();
         validSignInTest.enterUserEmail("forbits1@sololearn.com");
@@ -54,9 +53,7 @@ public class SignInTest extends BaseClass {
     @Test(priority = 3)
     public void WrongPasswordTest() throws InterruptedException {
 
-        //driver.get(prodLoginUrl);
         SignInElements wrongPassword = new SignInElements();
-        // wrongPassword.cookiesOkButtonClick();
 
         Random randomUsername = new Random();
         int randomNumbers = randomUsername.nextInt();
