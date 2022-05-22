@@ -1,4 +1,4 @@
-package Testing;
+package exercises;
 
 import java.util.Arrays;
 
@@ -9,7 +9,6 @@ public class test2 {
         int current = -1;
         int count = 0;
         Arrays.sort(abc);
-        //  System.out.println(abc[3]);
 
 
         for (int i = 0; i < abc.length -1; i++) {

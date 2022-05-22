@@ -11,47 +11,45 @@ import java.util.Random;
 
 import static java.time.Duration.ofSeconds;
 
-public class OnboardingPass extends BaseClass {
+public class OnboardingTest extends BaseClass {
+
 
     @Test
-    public void SignUp() throws InterruptedException {
+    public void onboardingTest() throws InterruptedException {
         //Sign up with Email
 
-        driver.get("https://www.sololearn.com/home");
+        driver.get(prodHomepageURL);
 
-        By cookiesOkButton = By.id("CybotCookiebotDialogBodyLevelButtonAccept");
-       new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(cookiesOkButton));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(cookiesOkButton));
-        driver.findElement(cookiesOkButton).click();
+        OnboardingElements onboardingSteps = new OnboardingElements();
+        SignInElements forUserEmail = new SignInElements();
 
-        By registerButton = By.className("sl-action-btn--primary");
+        //Click Cookies Ok button and Register button in homePage
+        SignInElements cookiesButton = new SignInElements();
+        cookiesButton.cookiesOkButtonClick();
+        onboardingSteps.registerButtonClick();
 
-       driver.findElement(registerButton).click();
-        String expectedUrl = "https://www.sololearn.com/onboarding/auth/signup";
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/auth/signup"));
-        String actualUrl = driver.getCurrentUrl();
-       // Assert.assertEquals(expectedUrl, actualUrl);
+        //check that landed into signup url
+        String expectedAuthSignUpPageURL = "https://www.sololearn.com/onboarding/auth/signup";
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(expectedAuthSignUpPageURL));
+        String actualAuthSignUpPageURL = driver.getCurrentUrl();
+        Assert.assertEquals(actualAuthSignUpPageURL, expectedAuthSignUpPageURL);
 
+        //Signup with email
         Random randomUsername = new Random();
         int randomNumbers = randomUsername.nextInt();
 
-       /*driver.findElement(userEmail).sendKeys("test" + randomNumbers + "@sololearn.com");
-        driver.findElement(usernameName).sendKeys("test");
-        driver.findElement(password).sendKeys("123456");
-        driver.findElement(SignupButton).click(); */
+        forUserEmail.enterUserEmail("test" + randomNumbers + "@sololearn.com");
+        onboardingSteps.enterUsername("test");
+        forUserEmail.enterPassword("123456");
+        onboardingSteps.signUpButtonClick();
 
-        String expectedUrlOnboardingSurvey = "https://www.sololearn.com/onboarding/onboardingSurveyCourses";
-        new WebDriverWait(driver, Duration.ofSeconds(15)).
-                until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/onboardingSurveyCourses"));
+        //check Survey courses url
+        String ExpectedOnboardingSurveyURL = "https://www.sololearn.com/onboarding/onboardingSurveyCourses";
+        new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.urlToBe(ExpectedOnboardingSurveyURL));
         String actualUrlOnboardingSurvey = driver.getCurrentUrl();
+        Assert.assertEquals(actualUrlOnboardingSurvey, ExpectedOnboardingSurveyURL);
 
-        //Assert.assertEquals(actualUrlOnboardingSurvey, expectedUrlOnboardingSurvey);
-    }
-
-    @Test
-    public void SurveyCourses() throws InterruptedException {
-        //Check the text of Survey, count of buttons and click "Yes, I know what I want".
-
+        //Check the text of Survey, count of buttons
         String ActualSurveyCoursesTitle = driver.findElement(By.className("sl-obrd-survey-page__cont__title")).getText();
         String ExpectedSurveyCoursesTitle = "Do you already know which course you want to take?";
         Assert.assertEquals(ActualSurveyCoursesTitle, ExpectedSurveyCoursesTitle);
@@ -60,16 +58,44 @@ public class OnboardingPass extends BaseClass {
         int ActualSurveyCoursesOptions = surveyCoursesOptions.size();
         Assert.assertEquals(ActualSurveyCoursesOptions, 2);
 
-        WebElement OnboardingSurveyCourse = driver.findElement(By.xpath("//*[contains(text(),'Yes, I know what course I want.')]"));
-        OnboardingSurveyCourse.click(); //Yes, I know what course I want.
+        WebElement NoPleaseRecommendMeOneButton = driver.findElement(By.xpath("//*[contains(text(),'No, please recommend me one.')]"));
+
+        NoPleaseRecommendMeOneButton.click();
+
+        String ExpectedCategoryPageTitle = "What would you like to create?";
+        String ActualCategoryPageTitle = driver.findElement(By.className("sl-obrd-course-recommendation__title")).getText();
+        Assert.assertEquals(ActualCategoryPageTitle, ExpectedCategoryPageTitle);
+
+        String ExpectedCategoryPageText = "We’ll recommend the best programming languages for beginners.";
+        String ActualCategoryPageText = driver.findElement(By.className("sl-obrd-course-recommendation__desc")).getText();
+        Assert.assertEquals(ActualCategoryPageText, ExpectedCategoryPageText);
+
+        List<WebElement> CoursesCategories = driver.findElements(By.className("sl-onbrd-select-button"));
+        int countOfCategories = CoursesCategories.size();
+        Assert.assertEquals(countOfCategories, 6);
+
+        String[] expectedCategoriesNames = {"\uD83D\uDCF1\n" + "Mobile apps", "\uD83D\uDDA5️\n" + "Websites",
+                "\uD83D\uDC7E\n" + "Games for mobile and web",
+                "⚙️\n" + "Backend systems", "\uD83D\uDCCA\n" + "Data science"};
+
+        for (int actualCoursesNames = 0; actualCoursesNames <countOfCategories-1; actualCoursesNames++) {
+            String actualName = CoursesCategories.get(actualCoursesNames).getText();
+            Assert.assertEquals(actualName, expectedCategoriesNames[actualCoursesNames]);
+        }
+
+        //go back and click "Yes I Know what I want" button
+        driver.navigate().back();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(ExpectedOnboardingSurveyURL));
+        WebElement YesIKnowWhatIWantButton = driver.findElement(By.xpath("//*[contains(text(),'Yes, I know what course I want.')]"));
+        YesIKnowWhatIWantButton.click();
+
+        //check course selection url
         String ExpectedUrlCourseSelection = "https://www.sololearn.com/onboarding/courseSelection";
         String ActualUrlCourseSelection = driver.getCurrentUrl();
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/courseSelection"));
-        Assert.assertEquals(ExpectedUrlCourseSelection, ActualUrlCourseSelection);
-    }
-    @Test
-    //When landed into Courses Section, check the title and text
-    public void coursesPageTexts() throws InterruptedException {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(ExpectedUrlCourseSelection));
+        Assert.assertEquals(ActualUrlCourseSelection, ExpectedUrlCourseSelection);
+
+       //check the title and text
         String ExpectedCourseSelectionTitle = "Select your first course";
         String ActualCourseSelectionTitle = driver.findElement(By.className("sl-onbrd-courses__cont__title")).getText();
         Assert.assertEquals(ExpectedCourseSelectionTitle, ActualCourseSelectionTitle);
@@ -98,46 +124,45 @@ public class OnboardingPass extends BaseClass {
             String courseName = CoursesCount.get(course).getText();
             Assert.assertEquals(courseName, expectedCoursesName[course]);
         }
-    }
-    @Test
-            public void otherTests() throws InterruptedException {
-        WebElement SelectCourse =
-                driver.findElement(By.cssSelector("[class*='sl-course-item']>[src='https://sololearnuploads.azureedge.net/uploads/courses/1172.png']"));
-        SelectCourse.click();
 
+        //click the secong (PFB) course
+        CoursesCount.get(1).click();
+
+        //check motivational page url
         String ExpectedUrlMotivational = "https://www.sololearn.com/onboarding/motivational";
         String ActualUrlMotivational = driver.getCurrentUrl();
-
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/motivational"));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(ExpectedUrlMotivational));
         Assert.assertEquals(ExpectedUrlMotivational, ActualUrlMotivational);
 
         //check if PFB icon exits
-        WebElement actualIconPFB = driver.findElement(By.cssSelector("[class='sl-motivational--v1__cont__icon'] [src = 'https://sololearnuploads.azureedge.net/uploads/courses/1172.png']"));
-        boolean actualIconPFBExists = driver.findElements((By.cssSelector("[class='sl-motivational--v1__cont__icon'] [src = 'https://sololearnuploads.azureedge.net/uploads/courses/1172.png']"))).size() !=0;
+        By actualIconPFB = By.cssSelector("[class='sl-motivational--v1__cont__icon'] [src = 'https://sololearnuploads.azureedge.net/uploads/courses/1172.png']");
+        boolean actualIconPFBExists = driver.findElements(actualIconPFB).size() ==1;
+        Assert.assertEquals(true, actualIconPFBExists, "Course Icon");
 
+        //check PFB motivational title
         String expectedMotivationalPageTitle = "Python for Beginners is a great choice!";
         String actualMotivationalPageTitle = driver.findElement(By.className("sl-motivational--v1__cont__title")).getText();
         Assert.assertEquals(expectedMotivationalPageTitle, actualMotivationalPageTitle);
 
-
+        //check PFB motivational texts
         String expectedMotivationalPageText =
                 "Remember, learning is often challenging, but some of the most worthwhile things in life are. Sololearn is here to help you every step of your journey.";
         String actualMotivationalPageText = driver.findElement(By.className("sl-motivational--v1__cont__desc")).getText();
         Assert.assertEquals(expectedMotivationalPageText, actualMotivationalPageText);
 
-
         String expectedMotivationalBottomText = "Consistency takes our users to their chosen careers";
         String actualMotivationalBottomText = driver.findElement(By.className("sl-motivational--v1__cont__mot")).getText();
         Assert.assertEquals(expectedMotivationalBottomText, actualMotivationalBottomText);
 
-
+        //click Continue button
         WebElement motivationalContinue = driver.findElement(By.className("sl-onbrd-action-btn--primary"));
         motivationalContinue.click();
         String ExpectedUrlQuestionExperience = "https://www.sololearn.com/onboarding/questionExperience";
         String ActualUrlQuestionExperience = driver.getCurrentUrl();
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe("https://www.sololearn.com/onboarding/questionExperience"));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(ExpectedUrlQuestionExperience));
         Assert.assertEquals(ExpectedUrlQuestionExperience, ActualUrlQuestionExperience);
 
+        //check experience buttons count and names
         List <WebElement> experienceButtonsNumbers =
                 driver.findElements(By.cssSelector("[class*='sl-obrd-exp__cont__items'] [type = 'button']"));
         int actualexperienceButtonsNumbers = experienceButtonsNumbers.size();
@@ -151,43 +176,45 @@ public class OnboardingPass extends BaseClass {
             Assert.assertEquals(expectedExperienceButtonsNames[experienceButtonName], actualExperienceButtonName);
         }
 
-
+        //click I know a lot about coding
         WebElement IKnowALotAboutCoding = driver.findElement(By.className("sl-onbrd-select-button"));
         IKnowALotAboutCoding.click();
+
+        //check URL and title in Describe yourself
         String ExpectedUrlQuestionAvailability = "https://www.sololearn.com/onboarding/questionAvailability";
         String ActualUrlQuestionAvailability = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlQuestionAvailability, ActualUrlQuestionAvailability);
-
         String expectedQuestionAvailabilityTitle = "How would you describe yourself?";
         String actualQuestionAvailabilityTitle = driver.findElement(By.className("sl-obrd-surv__cont__title")).getText();
         Assert.assertEquals(expectedQuestionAvailabilityTitle, actualQuestionAvailabilityTitle);
 
-
-        List <WebElement> describeYourselfQuestions=
-                driver.findElements(By.xpath("//button/p"));
+        //check describe yourself buttons count and names
+        List <WebElement> describeYourselfQuestions= driver.findElements(By.xpath("//button/p"));
 
         int numberOfDescribeYourselfQuestions = describeYourselfQuestions.size();
         Assert.assertEquals(numberOfDescribeYourselfQuestions, 5);
 
 
         String [] describeYourselfQuestionNames = {"Technical Professional (I work with code as a dev or data scientist)",
-        "Student (With plenty of time to learn)", "Hobbyist (This is just a hobby for me, not my whole life)",
-               "Business Person (I have technical aspects to my job)"};
+                "Student (With plenty of time to learn)", "Hobbyist (This is just a hobby for me, not my whole life)",
+                "Business Person (I have technical aspects to my job)"};
 
-       for (String describeYourselfQuestionName : describeYourselfQuestionNames) {
-           Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+describeYourselfQuestionName+"']") ).size() == 1);
-       }
+        for (String describeYourselfQuestionName : describeYourselfQuestionNames) {
+            Assert.assertTrue(driver.findElements( By.xpath("//button/p[.='"+describeYourselfQuestionName+"']") ).size() == 1);
+        }
 
         Assert.assertTrue(driver.
                 findElements( By.xpath("//button/p[.=\"Non-technical Newbie (I'm looking to reskill myself)\"]") ).size() == 1);
 
 
-       WebElement nonTechnicalNewbie = driver.findElement(( By.xpath("//button/p[.=\"Non-technical Newbie (I'm looking to reskill myself)\"]") ));
+        //click Non-technical newbiew button
+        WebElement nonTechnicalNewbie = driver.findElement(( By.xpath("//button/p[.=\"Non-technical Newbie (I'm looking to reskill myself)\"]") ));
         nonTechnicalNewbie.click();
+
+        //check daily goal URL, title and body texts
         String ExpectedUrlQuestionPace = "https://www.sololearn.com/onboarding/questionPace";
         String ActualUrlQuestionPace = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlQuestionPace, ActualUrlQuestionPace);
-
 
         String actualQuestionPaceTitle = driver.findElement(By.className("sl-obrd-set-a-goal__cont__title")).getText();
         String expectedQuestionPaceTitle = "Set a daily learning goal and we’ll keep you on track!";
@@ -197,6 +224,7 @@ public class OnboardingPass extends BaseClass {
         String expectedQuestionPaceText = "Usually 1 lesson takes around 5 minutes.";
         Assert.assertEquals(actualQuestionPaceText, expectedQuestionPaceText);
 
+        //check daily goal buttons count and names
         List <WebElement> ListOfGoalButtons = driver.findElements(By.cssSelector("[type='button']"));
         int goalButtonsCount = ListOfGoalButtons.size();
         Assert.assertEquals(goalButtonsCount, 3);
@@ -208,9 +236,10 @@ public class OnboardingPass extends BaseClass {
             Assert.assertEquals(actualGoalButtonsName, expectedGoalButtonsNames[goalButtonsName]);
         }
 
-
+        //click the first goal (Relaxed - 1 lesson a day)
         ListOfGoalButtons.get(0).click();
 
+        //check age page url and title text
         String ExpectedUrlQuestionAge = "https://www.sololearn.com/onboarding/questionAge";
         String ActualUrlQuestionAge = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlQuestionAge, ActualUrlQuestionAge);
@@ -219,6 +248,7 @@ public class OnboardingPass extends BaseClass {
         String expectedQuestionAgeTitle = "What's your age?";
         Assert.assertEquals(actualQuestionAgeTitle,expectedQuestionAgeTitle );
 
+        //check age buttons count and names
         List <WebElement> ListOfAges= driver.findElements(By.cssSelector("[class='sl-obrd-age__cont__items'] [type='button']"));
         int ListOfAgesCount = ListOfAges.size();
         Assert.assertEquals(ListOfAgesCount, 5);
@@ -229,23 +259,26 @@ public class OnboardingPass extends BaseClass {
             Assert.assertEquals(actualUserAge, expectedAges[userAge]);
         }
 
-        ListOfAges.get(3).click();
+        //click "19-24" button
+        ListOfAges.get(1).click();
+
+        //check loading screen url and texts
         String ExpectedUrlLoadingScreen = "https://www.sololearn.com/onboarding/loadingScreen";
         String ActualUrlLoadingScreen = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlLoadingScreen, ActualUrlLoadingScreen);
 
         WebElement continueLoadingScreen = driver.findElement(By.className("sl-onbrd__action-btn"));
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable((By.className("sl-onbrd__action-btn"))));
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(continueLoadingScreen));
 
-       String actualLoadingScreenTitle = driver.findElement(By.className("sl-onbrd-psycho-loading__title")).getText();
-       String expectedLoadingScreenTitle1= "Hang tight! We’re developing your learning plan";
-       String expectedLoadingScreenTitle2= "Hang tight!";
+        String actualLoadingScreenTitle = driver.findElement(By.className("sl-onbrd-psycho-loading__title")).getText();
+        String expectedLoadingScreenTitle1= "Hang tight! We’re developing your learning plan";
+        String expectedLoadingScreenTitle2= "Hang tight!";
 
         Assert.assertTrue(actualLoadingScreenTitle.equals(expectedLoadingScreenTitle1)
                 || actualLoadingScreenTitle.equals(expectedLoadingScreenTitle2),"Actual Loading Screen Title is wrong");
 
         new WebDriverWait(driver, Duration.ofSeconds(10)).
-               until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='sl-progress-bar__completed-text']")));
+                until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class='sl-progress-bar__completed-text']")));
 
         String actualLearningPlanReadyText = driver.findElement((By.cssSelector("[class='sl-progress-bar__completed-text']"))).getText();
         String expectedLearningPlanReadyText1 = "Your learning plan is ready, test!";
@@ -256,38 +289,51 @@ public class OnboardingPass extends BaseClass {
         String actualProgressBarCompletedText = driver.findElement(By.className("sl-progress-bar__completed-text")).getText();
         String expectedProgressBarCompletedText1 = "Your learning plan is ready, test!";
         String expectedProgressBarCompletedText2 = "That's all, test";
-        String actualLoadingDescription = driver.findElement(By.className("sl-onbrd-psycho-loading__description")).getText();
         String expectedLoadingDescription = "Hold on for a few seconds while we're developing your custom learning plan.";
         Assert.assertTrue(actualProgressBarCompletedText.equals(expectedProgressBarCompletedText1) ||
-                (actualProgressBarCompletedText.equals(expectedProgressBarCompletedText2)
-                        && actualLoadingDescription.equals(expectedLoadingDescription)),
+                        actualProgressBarCompletedText.equals(expectedProgressBarCompletedText2),
                 "Progress Bar Completed text or Loading description is wrong");
 
+        //"Continue" or "Thanks" button
+        continueLoadingScreen.click();
 
-        continueLoadingScreen.click(); //"Continue" or "Thanks" button
+        //check learning plan url
         String ExpectedUrlLearningPlan = "https://www.sololearn.com/onboarding/learningPlan";
         String ActualUrlLearningPlan = driver.getCurrentUrl();
         Assert.assertEquals(ExpectedUrlLearningPlan, ActualUrlLearningPlan);
 
-
-
+        //click Continue button
         WebElement continueLearningPlan = driver.findElement(By.className("sl-onbrd-learn-plan__action-btn"));
         continueLearningPlan.click();
 
-        // experiments
+        //check Onboarding payment url
+        String ExpectedUrlOnboardingPROpage = "https://www.sololearn.com/onboarding/payment";
+        String ActualUrlOnboardingPROpage = driver.getCurrentUrl();
+        Assert.assertEquals(ExpectedUrlOnboardingPROpage, ActualUrlOnboardingPROpage);
 
-      /*  String ExpectedUrlPayment = "https://www.sololearn.com/onboarding/payment";
-        String ActualUrlPayment = driver.getCurrentUrl();
-        Assert.assertEquals(ExpectedUrlPayment, ActualUrlPayment);
+        //click "Start my 14-day free trial"
+        WebElement startMy14_DayFreeTrial = driver.findElement(By.className("sl-trial-page__timeline__button"));
+        startMy14_DayFreeTrial.click();
 
+        //check payment page url and go back
+        String expectedPaymentPage= "https://www.sololearn.com/onboarding/checkout/7?returnUrl=/learning/1172&source=psycho";
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.urlToBe(expectedPaymentPage));
+        String actualPaymentPage= driver.getCurrentUrl();
+        Assert.assertEquals(actualPaymentPage, expectedPaymentPage);
+        driver.navigate().back();
 
-        WebElement NoThanksIllTryProLater = driver.findElement(By.className("sl-onbrd-psycho-pro__skip"));
-        NoThanksIllTryProLater.click();
+        //close pro page
+        By NoThanksIllTryProLater = By.className("sl-trial-page__close-icon");
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(NoThanksIllTryProLater));
+        driver.findElement(NoThanksIllTryProLater).click();
+
+        //check that landed into PFB course
         String ExpectedUrlCourseId = "https://www.sololearn.com/learning/1172";
         String ActualUrlCourseId = driver.getCurrentUrl();
-        Assert.assertEquals(ExpectedUrlCourseId, ActualUrlCourseId); */
+        Assert.assertEquals(ExpectedUrlCourseId, ActualUrlCourseId);
 
     }
 }
+
 
 

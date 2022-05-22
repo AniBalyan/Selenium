@@ -21,7 +21,7 @@ public class BaseClass {
     public void Begin() {
         System.out.println("testing has been started");
         try {
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\Sololearn\\Downloads\\chromedriver100\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "C:\\Users\\Ani\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();
         }catch (Exception ex){
@@ -32,7 +32,7 @@ public class BaseClass {
     @AfterTest
     public void After_Test() {
         System.out.println("testing finsihed");
-        driver.quit();
+        //driver.quit();
 
     }
 }
