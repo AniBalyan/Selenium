@@ -139,12 +139,12 @@ public class SignInTest extends BaseClass {
             driver.switchTo().window(GoogleWindow);
         }
 
-        googleSign.enterGoogleAccount("soliktest@gmail.com");
+        googleSign.enterGoogleAccount("soliktesting@gmail.com");
         googleSign.NextAfterGoogleAccountClick();
-        googleSign.enterGooglePassword("testsolik");
+        googleSign.enterGooglePassword("Testsolo1");
         googleSign.NextAfterGooglePasswordClick();
 
-        String expectedGoogleProfileUrl = "https://web-dev.sololearn.com/profile/22810149";
+        String expectedGoogleProfileUrl = "https://web-dev.sololearn.com/profile/22810607";
 
         Thread.sleep(4000);
 
@@ -163,12 +163,17 @@ public class SignInTest extends BaseClass {
 
     @Test (priority = 7)
 
-    public void notActivatedUserSignIn() {
+    public void notActivatedUserSignIn() throws InterruptedException{
 
         SignInElements notActivatedUser = new SignInElements();
+        SignInElements signInFromHomePage = new SignInElements();
+        signInFromHomePage.LoginButtonHomePageClick();
         notActivatedUser.clickUserEmailField();
         notActivatedUser.enterUserEmail("forbits@sololearn.com");
         notActivatedUser.enterPassword("123456");
+        SignInElements.clickSignIn();
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOfElementLocated(By.className("sl-login-error")));
 
         String expectedMessageNonActivatedUser = "Your account is not activated. Please check your email for activation instructions.";
         String actualMessageNonActivatedUser = driver.findElement(By.className("sl-login-error")).getText();
