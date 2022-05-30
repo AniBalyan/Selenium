@@ -155,7 +155,7 @@ public class OnboardingTest extends BaseClass {
         Assert.assertEquals(expectedMotivationalBottomText, actualMotivationalBottomText);
 
         //click Continue button
-        WebElement motivationalContinue = driver.findElement(By.className("sl-onbrd-action-btn--primary"));
+        WebElement motivationalContinue = driver.findElement(By.cssSelector("[type='button']"));
         motivationalContinue.click();
         String ExpectedUrlQuestionExperience = "https://www.sololearn.com/onboarding/questionExperience";
         String ActualUrlQuestionExperience = driver.getCurrentUrl();

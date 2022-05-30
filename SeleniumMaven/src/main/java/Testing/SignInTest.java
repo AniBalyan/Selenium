@@ -167,6 +167,7 @@ public class SignInTest extends BaseClass {
 
         SignInElements notActivatedUser = new SignInElements();
         SignInElements signInFromHomePage = new SignInElements();
+
         signInFromHomePage.LoginButtonHomePageClick();
         notActivatedUser.clickUserEmailField();
         notActivatedUser.enterUserEmail("forbits@sololearn.com");
